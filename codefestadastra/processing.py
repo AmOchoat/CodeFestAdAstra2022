@@ -8,6 +8,10 @@ from rasterio.enums import Resampling
 import numpy as np
 from rasterio.warp import reproject, Resampling
 
+from rasterio.plot import show
+from osgeo import gdal
+from pathlib import Path
+
 # ------------------------------------------------------------ Problema 1 ------------------------------------------------------------
 
 
@@ -131,3 +135,71 @@ def blur_and_resize(path: str, out_path: str):
         with resample_raster(src, out_path, 0.9, 5.5) as resampled:
             new_size = os.path.getsize(out_path) / 1000
             return f"Original size: {original_size} \nNew size: {new_size} \nNew size rate: {round((new_size / original_size) * 10000, 3)}%"
+
+
+# ------------------------------------------------------------ Problema 3 ------------------------------------------------------------
+
+
+def compress_raster_given_quality(
+    input_path: str, out_path: str, quality: int
+) -> float:
+    """
+    It takes a raster file, compresses it using the JP2OOpenJPEG format, and returns the compression ratio.
+
+    :param input_path: The path to the input file
+    :type input_path: str
+    :param out_path: str = "compression_output_quality10.tif"
+    :type out_path: str
+    :return: The ratio of the size of the output file to the size of the input file.
+    """
+
+    # Basic quality input validator
+    if quality > 100 or quality < 0:
+        raise ValueError("Quality must be between 0 and 100")
+
+    gdal.UseExceptions()
+
+    translate_options = gdal.TranslateOptions(
+        format="JP2OpenJPEG",
+        creationOptions=[f"QUALITY={quality}", "REVERSIBLE=YES", "YCBCR420=NO"],
+    )
+
+    outds = gdal.Translate(
+        "compression_output_quality10.tif",
+        input_path,
+        options=translate_options,
+    )
+
+    input_file = Path(input_path)
+
+    size_input_file = input_file.stat().st_size
+
+    output_file = Path(output_file)
+
+    size_output_file = out_path.stat().st_size
+
+    return size_output_file / size_input_file
+
+
+def compress_raster_low_quality_high_compression(input_path: str, out_path: str):
+    """
+    > This function compresses a raster to a low quality and high compression ratio
+    
+    :param input_path: The path to the input raster file
+    :type input_path: str
+    :param out_path: The path to the output file
+    :type out_path: str
+    """
+    compress_raster_given_quality(input_path, out_path, 10)
+
+
+def compress_raster_high_quality_low_compression(input_path: str, out_path: str):
+    """
+    > This function compresses a raster to a high quality, low compression ratio
+    
+    :param input_path: The path to the input raster
+    :type input_path: str
+    :param out_path: The path to the output file
+    :type out_path: str
+    """
+    compress_raster_given_quality(input_path, out_path, 100)
