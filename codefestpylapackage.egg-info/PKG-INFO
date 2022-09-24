@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: codefestpylapackage
+Version: 0.0.1
+Summary: The codefest Pyla package
+Author: Me
+Author-email: Juanpablo Barriga <jp.barriga@uniandes.edu.co>, Andrés Ochoa <a.ochoap@uniandes.edu.co>, Andres Ariza <a.ariza@uniandes.edu.co>, Geisson Ponce <gs.ponce20@uniandes.edu.co>
+Project-URL: Homepage, https://github.com/AmOchoat/CodeFestAdAstra2022
+Project-URL: Bug Tracker, https://github.com/AmOchoat/CodeFestAdAstra2022Issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENCE
+
+# Codefest Package

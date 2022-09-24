@@ -1,0 +1,10 @@
+LICENCE
+README.md
+pyproject.toml
+setup.py
+codefestadastra/__init__.py
+codefestadastra/processing.py
+codefestpylapackage.egg-info/PKG-INFO
+codefestpylapackage.egg-info/SOURCES.txt
+codefestpylapackage.egg-info/dependency_links.txt
+codefestpylapackage.egg-info/top_level.txt
