@@ -1,1 +1,21 @@
 # Codefest Package
+
+### Desarrollado por:
+* Juan Andrés Ariza. 
+* Andrés Martin Ochoa. 
+* Juan Pablo Barriga Álvarez.
+* Geisson Ponce Solano.
+* David Camilo Ocaña Orbes.
+
+
+Librería desarrollada para cumplir con el reto del CODEFEST Ad Astra 2022, y cada uno de los tres problemas planteados.
+
+Para su uso, es necesario instalar las librerías:
+
+* DGAL
+* rasterio
+* numpy
+
+Posteriormente, es necesario agregar el archivo en el directorio .\dist\codefestpylapackage-0.0.1-py3-none-any.whl, como librería a usar.
+
+pip install {path}\dist\codefestpylapackage-0.0.1-py3-none-any.whl
