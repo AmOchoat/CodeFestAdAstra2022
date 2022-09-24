@@ -1,5 +1,5 @@
-LICENCE
-README.md
+LICENSE
+README
 pyproject.toml
 setup.py
 codefestadastra/__init__.py
