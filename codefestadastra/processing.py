@@ -11,7 +11,7 @@ from rasterio.warp import reproject, Resampling
 # ------------------------------------------------------------ Problema 1 ------------------------------------------------------------
 
 
-def reproject_raster(in_path, out_path):
+def reproject_raster(in_path: str, out_path: str):
     """
     It takes a raster, randomly displaces it, and then saves it to a new file.
 
@@ -58,7 +58,7 @@ def reproject_raster(in_path, out_path):
 
 
 @contextmanager
-def resample_raster(raster, out_path, blur_factor, scale_factor):
+def resample_raster(raster, out_path: str, blur_factor: float, scale_factor: float):
     """
     It takes a raster, resamples it, and writes it to a new file
 

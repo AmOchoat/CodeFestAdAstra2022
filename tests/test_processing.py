@@ -1,2 +1,7 @@
 from codefestadastra import processing
-processing.blur_and_resize("./image_test/file_example_TIFF_10MB.tiff", "./image_test/preview_file_example_TIFF_10MB.tiff")
+
+# Case of use of blur_and_resize method - Problema 2
+processing.reproject_raster("./tests_assets/test.tiff", "./tests_results/offuscated_test1.tiff")
+
+# Case of use of blur_and_resize method - Problema 2
+processing.blur_and_resize("./tests_assets/test.tiff",  "./tests_results/offuscated_test1.tiff")
