@@ -19,3 +19,5 @@ Para su uso, es necesario instalar las librerías:
 Posteriormente, es necesario agregar el archivo en el directorio .\dist\codefestpylapackage-0.0.1-py3-none-any.whl, como librería a usar.
 
 pip install {path}\dist\codefestpylapackage-0.0.1-py3-none-any.whl
+
+Para su uso, leer la descripción de cada uno de los métodos en el directorio codefestadastra/processing.

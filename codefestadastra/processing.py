@@ -165,7 +165,7 @@ def compress_raster_given_quality(
     )
 
     outds = gdal.Translate(
-        "compression_output_quality10.tif",
+        out_path,
         input_path,
         options=translate_options,
     )
