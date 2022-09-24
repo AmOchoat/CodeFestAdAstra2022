@@ -1,18 +1,60 @@
 
 
 from contextlib import contextmanager  
+import os
+
+import rasterio
 from rasterio import Affine
 from rasterio.enums import Resampling
 from rasterio.plot import show
 
-import os
-import rasterio
+import numpy as np
+from rasterio.warp import reproject, Resampling  
+
+# ------------------------------------------------------------ Problema 1 ------------------------------------------------------------
+
+def reproject_raster(in_path, out_path):
+    with rasterio.open(in_path) as src:
+        src_transform = src.transform
+        r = np.random.uniform(100,1000)
+
+        # Zoom out by a factor of 2 from the center of the source
+        # dataset. The destination transform is the product of the
+        # source transform, a translation down and to the right, and
+        # a scaling.
+        dst_transform = src_transform
+        x_transform = src_transform*Affine.translation(
+            src.width*r, src.height*r)
+
+        data = src.read()
+
+        kwargs = src.meta
+        kwargs['transform'] = x_transform
+        kwargs['nodata'] = 0
+
+    with rasterio.open(out_path, 'w', **kwargs) as dst:
+
+        for i, band in enumerate(data, 1):
+            dest = np.zeros_like(band)
+
+            reproject(
+                band,
+                dest,
+                src_transform=src_transform,
+                src_crs=src.crs,
+                dst_transform=dst_transform,
+                dst_crs=src.crs,
+                resampling=Resampling.nearest)
+
+            dst.write(dest, indexes=i)
+
+# ------------------------------------------------------------ Problema 2 ------------------------------------------------------------
 
 @contextmanager
-def resample_raster(raster, path, blur_factor, scale_factor):
+def resample_raster(raster, out_path, blur_factor, scale_factor):
     t = raster.transform
-    filename = path.split("/")[-1] or path
-
+    filename = out_path.split("/")[-1] or out_path
+    
     # rescale the metadata
     transform = Affine(t.a / scale_factor, t.b, t.c, t.d, t.e / scale_factor, t.f)
     height = raster.height / scale_factor
@@ -27,19 +69,18 @@ def resample_raster(raster, path, blur_factor, scale_factor):
     else:
         profile.update(transform=transform, driver='HFA', height=height, width=width, crs=raster.crs)
 
-    data = raster.read( # Note changed order of indexes, arrays are band, row, col order not row, col, band
+    data = raster.read(
             out_shape=(int(raster.count), int(height * blur_factor), int(width * blur_factor)),
-            resampling=Resampling.cubic)
+            resampling=Resampling.cubic
+    )
 
-    with rasterio.open("preview_" + filename,'w', **profile) as dst:
+    with rasterio.open(out_path,'w', **profile) as dst:
         dst.write(data)
         yield data
 
-def blur_and_resize(path):
+def blur_and_resize(path, out_path):
     original_size = os.path.getsize(path) / 1000
     with rasterio.open(path) as src:
-        with resample_raster(src, path, 0.9, 5.5) as resampled:
-            new_filename = "preview_" + path.split("/")[-1]
-            new_path = "/".join(path.split("/")[:-1]) + new_filename
-            new_size = os.path.getsize(new_path) / 1000
+        with resample_raster(src, out_path, 0.9, 5.5) as resampled:
+            new_size = os.path.getsize(out_path) / 1000
             print(f"Original size: {original_size} \nNew size: {new_size} \nNew size rate: {round((new_size / original_size) * 10000, 3)}%")
