@@ -21,3 +21,8 @@ Posteriormente, es necesario agregar el archivo en el directorio .\dist\codefest
 pip install {path}\dist\codefestpylapackage-0.0.1-py3-none-any.whl
 
 Para su uso, leer la descripción de cada uno de los métodos en el directorio codefestadastra/processing.
+luego de importar la librería, se puede usar cada uno de los métodos con el objeto de importación processing,
+
+Por ejemplo:
+
+  processing.blur_and_resize({{path}}, {{out_path}})
